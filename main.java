@@ -2,6 +2,7 @@ import java.util.Scanner;
 // More packages may be imported in the space below
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 class BenfordsLaw{
     public static void main(String[] args){
@@ -13,6 +14,11 @@ class BenfordsLaw{
         exitCondition = "9";
 
         // More variables for the main may be declared in the space below
+        // Create array to store the frequency of each digit (part 1, method 1)
+        int[] digitFrequency = new int[9];
+        // Create array to store the percent frequency of each digit (part 2, method 2)
+        String[] digitFrequencyPercent = new String[9];
+        
 
         do{
             printMenu();                                    // Printing out the main menu
@@ -21,11 +27,15 @@ class BenfordsLaw{
             if (userInput.equals(salesReport)){
                 // Only the line below may be editted based on the parameter list and how you design the method return
 		        // Any necessary variables may be added to this if section, but nowhere else in the code
-                int[] digitFrequency = totalSalesReport(reader);
+                // Call totalSalesReport Method
+                digitFrequency = totalSalesReport(reader);
+
             }
             else if (userInput.equals(fraudCheck)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
                 
+                // Call last method
+                resultsExport(digitFrequency, digitFrequencyPercent);
             }
             else{
 
@@ -42,20 +52,28 @@ class BenfordsLaw{
     }
     public static void printMenu(){
         System.out.println("Customer and Sales System\n"
-        .concat("1. Enter Customer Information\n")
-        .concat("2. Generate Customer data file\n")
-        .concat("3. Report on total Sales (Not done in this part)\n")
-        .concat("4. Check for fraud in sales data (Not done in this part)\n")
+        .concat("1. Enter Customer Information (Not done in this part)\n")
+        .concat("2. Generate Customer data file (Not done in this part)\n")
+        .concat("3. Report on total Sales\n")
+        .concat("4. Check for fraud in sales data\n")
         .concat("9. Quit\n")
         .concat("Enter menu option (1-9)\n")
         );
     }
 
-    
+    /*
+     * Method totalSalesReport loads sales data, finds total sales, and counts and stores 
+     * the frequency of first digits
+     * @param - Scanner reader
+     * @return - int[]
+    */
     public static int[] totalSalesReport(Scanner reader){
         try {
+            // Ask user for file name
+            System.out.print("Enter File Name (ex.'filename.filetype'): ");
+            String fileName = reader.nextLine();
             // Creates file variable with sales file
-            File File = new File("sales.csv");
+            File File = new File(fileName);
             // Initializes scanner for the file
             reader = new Scanner(File);
             // Initialize variabe "data", which will hold the string data from the file
@@ -90,7 +108,6 @@ class BenfordsLaw{
                     digitFrequencyNum[firstDigit - 1] += 1;
                 }
             }
-
             System.out.println();
             System.out.println("Total Sales: $" + totalSalesCount);
             System.out.println();
@@ -107,5 +124,34 @@ class BenfordsLaw{
         }
         return null;
     }
-  
+
+
+
+
+
+
+    /*
+     * Method resultsExport exports the digit frequency in a file called results.csv
+     * @param - int[] frequency, String[] frequencyPercent
+     * @return - void
+    */
+    public static void resultsExport(int[] frequencyNum, String[] frequencyPercent){
+        // Create new file
+        String fileName = "results.csv";
+        File outFile = new File(fileName);
+        // New PrintWriter which will print to the file
+        try {
+            PrintWriter out = new PrintWriter(outFile);
+            // Prints header to file
+            out.println("Digit,Frequency,Percent Frequency");
+            // Prints each digit and their frequency and percent frequency on a new line each time
+            for (int i = 0; i < frequencyNum.length; i++){
+                out.println((i+1)+", " + frequencyNum[i]+", " + frequencyPercent[i] + "%");
+            }
+            out.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
