@@ -43,10 +43,14 @@ class BenfordsLaw{
             }
             else if (userInput.equals(fraudCheck)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
-                generateCustomerData(digitFrequency);
-                
+                digitFrequencyPercent = percent(digitFrequency, digitFrequencyPercent);
                 // Call last method
                 resultsExport(digitFrequency, digitFrequencyPercent);
+
+                
+                generateCustomerData(digitFrequency);
+                
+
             }
             else{
 
@@ -147,7 +151,29 @@ class BenfordsLaw{
     }
 
 
-
+        
+    public static String[] percent(int[] digitFrequency, String[] digitFrequencyPercent){
+        double total = 0;
+        String sumString;
+        String first;
+        for (int i = 0; i < digitFrequency.length; i++){
+            total += digitFrequency[i];   
+        }
+        for (int i = 0; i < digitFrequency.length; i++){
+            double sum = 0;
+            sum = digitFrequency[i]/total;
+            sum = sum*100;
+            sumString = Double.toString(sum);
+            first= sumString.substring(0,1);
+            if (sumString.substring(0,2).equals(first+".")){
+                digitFrequencyPercent[i] = sumString.substring(0, 4);
+            }
+            else{
+                digitFrequencyPercent[i] = sumString.substring(0, 5);
+            }
+        }
+        return digitFrequencyPercent;
+    }
 
 
 
