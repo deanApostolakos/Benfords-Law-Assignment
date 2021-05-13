@@ -21,7 +21,7 @@ public class BarGraph extends Application{
         percentAxis.setLabel("Percent");
  
         XYChart.Series series = new XYChart.Series();  
-        series.getData().add(new XYChart.Data("1", digitFrequencyPercent[1]));
+        series.getData().add(new XYChart.Data("1", digitFrequencyPercent[0]));
         series.getData().add(new XYChart.Data("2", digitFrequencyPercent[1]));
         series.getData().add(new XYChart.Data("3", digitFrequencyPercent[2]));
         series.getData().add(new XYChart.Data("4", digitFrequencyPercent[3]));
